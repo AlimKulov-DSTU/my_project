@@ -84,3 +84,12 @@ print(f"Сложение: {x + y} (десятичная форма: {float(x + y
 print(f"Вычитание: {x - y} (десятичная форма: {float(x - y):.2f})")
 print(f"Умножение: {x * y} (десятичная форма: {float(x * y):.2f})")
 print(f"Деление: {x / y} (десятичная форма: {float(x / y):.2f})")
+
+#Задание 8 Datetime вывод
+from datetime import datetime
+
+date = datetime.now()
+
+print("\n", datetime.now())
+print(date.date())
+print(date.time())
