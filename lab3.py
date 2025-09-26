@@ -44,3 +44,30 @@ def fibonacci(n):
 print('\nПервые n чисел Фибоначчи')
 for num in fibonacci(5):
     print(num)
+
+#Задание 6 калькулятор Decimal калькулятор
+from decimal import Decimal, getcontext
+
+getcontext().prec = 10
+
+def calculate_deposit(RUB, STV, t):
+    RUB = Decimal(str(RUB))
+    STV = Decimal(str(STV))
+    t = Decimal(str(t))
+    
+    F = RUB * (1 + (STV / (12 * 100))) ** (12 * t) #Формула
+    
+    F = F.quantize(Decimal('0.01')) #Округление до 2 знаков после запятой (копейки)
+    
+    profit = F - RUB
+    
+    return F, profit
+
+RUB = 1000.00  # Начальная сумма
+STV = 7.5      # Процентная ставка
+t = 2        # Срок
+
+S, profit = calculate_deposit(RUB, STV, t)
+
+print(f"\nИтоговая сумма: {S:.2f} руб.")
+print(f"Прибыль: {profit:.2f} руб.")
