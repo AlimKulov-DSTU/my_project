@@ -107,3 +107,11 @@ days_until_birthday = (next_birthday - now).days
 
 print (f'\nРазница между датой рождения и заданной {now - birthday}')
 print(f"Дней до дня рождения: {days_until_birthday} дней")
+
+#Задание 10 
+def format_datetime(dt):
+    return dt.strftime("Сегодня %d %B %Y года, время: %H:%M")
+
+current_date = datetime.now()
+formatted_string = format_datetime(current_date)
+print(formatted_string)
