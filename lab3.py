@@ -10,3 +10,22 @@ print(list_filtered)
 words = ['python', 'Java', 'c++', 'Rust', 'go']
 words_new = [word.upper() for word in words if len(word) > 3]
 print(words_new)
+
+#Задание 4 собственный итератор 
+class Countdown:
+    def __init__(self, n):
+        self.n = n
+        self.current = n
+    
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        if self.current < 1:
+            raise StopIteration
+        result = self.current
+        self.current -= 1
+        return result
+    
+for x in Countdown(5):
+    print(x)
