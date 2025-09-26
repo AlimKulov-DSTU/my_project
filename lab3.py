@@ -86,10 +86,24 @@ print(f"Умножение: {x * y} (десятичная форма: {float(x *
 print(f"Деление: {x / y} (десятичная форма: {float(x / y):.2f})")
 
 #Задание 8 Datetime вывод
-from datetime import datetime
+from datetime import datetime, date, time
 
 date = datetime.now()
 
 print("\n", datetime.now())
 print(date.date())
 print(date.time())
+
+#Задание 9 Date Time (разница дат)
+birthday = datetime(2004, 4, 8)
+now = datetime(2025, 9, 26)
+
+next_birthday = datetime(now.year, birthday.month, birthday.day)
+
+if now > next_birthday:
+    next_birthday = datetime(now.year + 1, birthday.month, birthday.day)
+
+days_until_birthday = (next_birthday - now).days
+
+print (f'\nРазница между датой рождения и заданной {now - birthday}')
+print(f"Дней до дня рождения: {days_until_birthday} дней")
