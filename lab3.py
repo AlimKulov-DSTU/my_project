@@ -71,3 +71,16 @@ S, profit = calculate_deposit(RUB, STV, t)
 
 print(f"\nИтоговая сумма: {S:.2f} руб.")
 print(f"Прибыль: {profit:.2f} руб.")
+
+#Задание 7 Fraction (рациональные дроби)
+from fractions import Fraction
+
+x = Fraction('3/4')
+y = Fraction('5/6')
+
+print(f"\nДробь 1: {x} (десятичная форма: {float(x):.2f})")
+print(f"Дробь 2: {y} (десятичная форма: {float(y):.2f})")
+print(f"Сложение: {x + y} (десятичная форма: {float(x + y):.2f})")
+print(f"Вычитание: {x - y} (десятичная форма: {float(x - y):.2f})")
+print(f"Умножение: {x * y} (десятичная форма: {float(x * y):.2f})")
+print(f"Деление: {x / y} (десятичная форма: {float(x / y):.2f})")
