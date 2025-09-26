@@ -27,5 +27,20 @@ class Countdown:
         self.current -= 1
         return result
     
+
 for x in Countdown(5):
     print(x)
+
+#Задание 5 собственный генератор Фибоначчи
+def fibonacci(n):
+    if n <= 0:
+        return
+    a, b = 0, 1
+    for _ in range(n):
+        yield a
+        a, b = b, a + b
+
+
+print('\nПервые n чисел Фибоначчи')
+for num in fibonacci(5):
+    print(num)
