@@ -37,7 +37,7 @@ def fibonacci(n):
         return
     a, b = 0, 1
     for _ in range(n):
-        yield a
+        yield a #возвращает элемент и приостанавливает функцию (возвращает генератор, а не готовый список)
         a, b = b, a + b
 
 
@@ -96,7 +96,7 @@ print(date.time())
 
 #Задание 9 Date Time (разница дат)
 birthday = datetime(2004, 4, 8)
-now = datetime(2025, 9, 26)
+now = datetime.now()
 
 next_birthday = datetime(now.year, birthday.month, birthday.day)
 
