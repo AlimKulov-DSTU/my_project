@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>index</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;      /* элементы друг под другом */
+      justify-content: center;     /* вертикально по центру */
+      align-items: center;         /* горизонтально по центру */
+      text-align: center;          /* центрируем текст внутри */
+    }
+  </style>
+</head>
+<body>
+
+  <h1>templates/index.html</h1>
+  <p>Это начальная страница, вот другие:</p>
+  <a href="{% url 'courses' %}">courses.html</a>
+  <a href="{% url 'authors' %}">authors.html</a>
+  <a href="{% url 'info' %}">info.html</a>
+  <a href="{% url '404' %}">404.html</a>
+
+</body>
+</html>

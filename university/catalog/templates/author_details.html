@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>author_details</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;      /* элементы друг под другом */
+      justify-content: center;     /* вертикально по центру */
+      align-items: center;         /* горизонтально по центру */
+      text-align: center;          /* центрируем текст внутри */
+    }
+  </style>
+</head>
+<body>
+
+    <h1>{{ author.name|default:"Автор не найден" }}</h1>
+
+    {% if author %}
+    <p>{{ author.bio }}</p>
+    
+    <h3>Курсы автора:</h3>
+    {% for course in courses %}
+        <p>
+        <a href="{% url 'course_detail' pk=course.id %}">
+            {{ course.title }}
+        </a>
+        </p>
+    {% empty %}
+        <p>У этого автора пока нет курсов.</p>
+    {% endfor %}
+    {% else %}
+    <p>Такого автора нет.</p>
+    {% endif %}
+
+    <p><a href="{% url 'authors' %}">Все авторы</a> | <a href="{% url 'index' %}">На главную</a></p>
+
+</body>
+</html>
