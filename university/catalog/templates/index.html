@@ -7,21 +7,47 @@
     body {
       margin: 0;
       display: flex;
-      flex-direction: column;      /* элементы друг под другом */
-      justify-content: center;     /* вертикально по центру */
-      align-items: center;         /* горизонтально по центру */
-      text-align: center;          /* центрируем текст внутри */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .stats {
+      display: flex;
+      gap: 30px;
+      margin: 30px 0;
+    }
+    .stat-item {
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
 
-  <h1>templates/index.html</h1>
-  <p>Это начальная страница, вот другие:</p>
-  <a href="{% url 'courses' %}">courses.html</a>
-  <a href="{% url 'authors' %}">authors.html</a>
-  <a href="{% url 'info' %}">info.html</a>
-  <a href="{% url '404' %}">404.html</a>
+  <h1>Учебная система</h1>
+  
+  <div class="stats">
+    <div class="stat-item">
+      <h3>Преподаватели</h3>
+      <p style="font-size: 32px;">{{ teachers_count }}</p>
+    </div>
+    <div class="stat-item">
+      <h3>Курсы</h3>
+      <p style="font-size: 32px;">{{ courses_count }}</p>
+    </div>
+    <div class="stat-item">
+      <h3>Студенты</h3>
+      <p style="font-size: 32px;">{{ students_count }}</p>
+    </div>
+  </div>
+  
+  <p>Страницы:</p>
+  <p><a href="{% url 'courses' %}">Курсы</a></p>
+  <p><a href="{% url 'authors' %}">Преподаватели</a></p>
+  <p><a href="{% url 'students' %}">Студенты</a></p>
+  <p><a href="{% url 'info' %}">Информация</a></p>
 
 </body>
 </html>

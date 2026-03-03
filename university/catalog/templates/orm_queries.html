@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>ORM запросы</title>
+</head>
+<body>
+    <div class="container">
+        <h1>ORM запросы</h1>
+        <p><a href="{% url 'index' %}">На главную</a></p>
+
+        <!-- Запрос 1: Преподаватели с количеством курсов -->
+        <div class="query-section">
+            <h2>Преподаватели, у которых больше 1 курса</h2>
+            <p><small>Запрос: Teacher.objects.annotate(course_count=Count('courses')).filter(course_count__gt=1)</small></p>
+            
+            {% for teacher in teachers_with_multiple_courses %}
+                <div class="item">
+                    <strong>{{ teacher.first_name }} {{ teacher.last_name }}</strong>
+                    <span class="badge">Курсов: {{ teacher.course_count }}</span>
+                    <ul>
+                        {% for course in teacher.courses.all %}
+                            <li>{{ course.title }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% empty %}
+                <p>Нет преподавателей с более чем 1 курсом</p>
+            {% endfor %}
+        </div>
+
+        <!-- Запрос 2: Студенты без курсов -->
+        <div class="query-section">
+            <h2>Студенты, не записанные ни на один курс</h2>
+            <p><small>Запрос: Student.objects.filter(courses__isnull=True)</small></p>
+            
+            {% for student in students_without_courses %}
+                <div class="item">
+                    {{ student.first_name }} {{ student.last_name }}
+                </div>
+            {% empty %}
+                <p>Все студенты записаны на курсы</p>
+            {% endfor %}
+        </div>
+
+        <!-- Запрос 3: Преподаватели без профиля -->
+        <div class="query-section">
+            <h2>Преподаватели без дополнительного профиля (TeacherInfo)</h2>
+            <p><small>Запрос: Teacher.objects.filter(info__isnull=True)</small></p>
+            
+            {% for teacher in teachers_without_profile %}
+                <div class="item">
+                    {{ teacher.first_name }} {{ teacher.last_name }}
+                </div>
+            {% empty %}
+                <p>У всех преподавателей есть профиль</p>
+            {% endfor %}
+        </div>
+
+        <!-- Запрос 4: Статистика (дополнительно) -->
+        <div class="query-section">
+            <h2>Общая статистика</h2>
+            <div class="item">
+                <strong>Всего преподавателей:</strong> {{ total_teachers }}
+            </div>
+            <div class="item">
+                <strong>Всего курсов:</strong> {{ total_courses }}
+            </div>
+            <div class="item">
+                <strong>Всего студентов:</strong> {{ total_students }}
+            </div>
+            <div class="item">
+                <strong>Среднее количество курсов на преподавателя:</strong> {{ avg_courses_per_teacher|floatformat:1 }}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
