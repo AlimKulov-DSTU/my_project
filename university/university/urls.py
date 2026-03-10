@@ -18,16 +18,22 @@ from django.contrib import admin
 from django.urls import path, include
 from catalog import views
 
+from django.contrib import admin
+from django.urls import path, include
+from catalog import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('schedule/', include('schedule.urls')),
     
-    path('',                     views.index,          name='index'),
-    path('courses/',             views.courses,        name='courses'),
-    path('course/<int:pk>/',     views.course_detail,  name='course_detail'),
-    path('authors/',             views.authors,        name='authors'),
-    path('author/<int:pk>/',     views.author_details, name='author_details'),
-    path('info/',                views.info,           name='info'),
-    path('students/',            views.students,       name='students'),
-    path('404/',                 views.not_found,      name='404'),
+    path('', views.index, name='index'),
+    path('teachers/', views.teacher_list, name='teacher_list'),
+    path('teachers/add/', views.teacher_add, name='teacher_add'),
+    path('courses/', views.courses, name='courses'),
+    path('courses/add/', views.course_add, name='course_add'), 
+    path('course/<int:pk>/', views.course_detail, name='course_detail'),
+    path('author/<int:pk>/', views.author_details, name='author_details'),
+    path('info/', views.info, name='info'),
+    path('students/', views.students, name='students'),
+    path('404/', views.not_found, name='404'),
 ]
