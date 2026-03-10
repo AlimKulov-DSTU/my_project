@@ -1,53 +1,79 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>index</title>
-  <style>
-    body {
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-    .stats {
-      display: flex;
-      gap: 30px;
-      margin: 30px 0;
-    }
-    .stat-item {
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>{% block title %}index{% endblock %}</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+        }
+        nav {
+            width: 100%;
+            background-color: #444;
+            padding: 1rem;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            padding: 0.5rem;
+        }
+        nav a:hover {
+            background-color: #555;
+            border-radius: 4px;
+        }
+        main {
+            flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            padding: 2rem;
+        }
+        footer {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+        }
+        {% block extra_css %}{% endblock %}
+    </style>
 </head>
 <body>
-
-  <h1>Учебная система</h1>
-  
-  <div class="stats">
-    <div class="stat-item">
-      <h3>Преподаватели</h3>
-      <p style="font-size: 32px;">{{ teachers_count }}</p>
-    </div>
-    <div class="stat-item">
-      <h3>Курсы</h3>
-      <p style="font-size: 32px;">{{ courses_count }}</p>
-    </div>
-    <div class="stat-item">
-      <h3>Студенты</h3>
-      <p style="font-size: 32px;">{{ students_count }}</p>
-    </div>
-  </div>
-  
-  <p>Страницы:</p>
-  <p><a href="{% url 'courses' %}">Курсы</a></p>
-  <p><a href="{% url 'authors' %}">Преподаватели</a></p>
-  <p><a href="{% url 'students' %}">Студенты</a></p>
-  <p><a href="{% url 'info' %}">Информация</a></p>
-
+    <header>
+        <h1>{% block header %}templates/index.html{% endblock %}</h1>
+    </header>
+    
+    <nav>
+        <a href="{% url 'teacher_list' %}">Список преподавателей</a>
+        <a href="{% url 'courses' %}">Список курсов</a>
+        <a href="{% url 'teacher_add' %}">Добавить преподавателя</a>
+        <a href="{% url 'course_add' %}">Добавить курс</a>
+    </nav>
+    
+    <main>
+        {% block content %}
+        <p>Это начальная страница, вот другие:</p>
+        <a href="{% url 'courses' %}">courses.html</a>
+        <a href="{% url 'teacher_list' %}">authors.html</a>
+        <a href="{% url 'info' %}">info.html</a>
+        <a href="{% url '404' %}">404.html</a>
+        {% endblock %}
+    </main>
+    
+    <footer>
+        <p>&copy; 2026 Учебная система</p>
+    </footer>
 </body>
 </html>

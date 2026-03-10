@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Count
-from schedule.models import Teacher, Course, Student
+from schedule.models import Teacher, TeacherInfo, Course, Student
+from .forms import TeacherForm, CourseForm
 
 def index(request):
     """Главная страница"""
@@ -11,6 +12,35 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
+def teacher_list(request):
+    """Список всех преподавателей"""
+    teachers = Teacher.objects.all()
+    return render(request, 'teacher_list.html', {'teachers': teachers})
+
+def teacher_add(request):
+    """Добавление нового преподавателя"""
+    if request.method == 'POST':
+        form = TeacherForm(request.POST)
+        if form.is_valid():
+            teacher = Teacher.objects.create(
+                first_name=form.cleaned_data['first_name'],
+                last_name=form.cleaned_data['last_name'],
+                email=form.cleaned_data['email']
+            )
+            
+            if form.cleaned_data.get('phone') or form.cleaned_data.get('bio'):
+                TeacherInfo.objects.create(
+                    teacher=teacher,
+                    phone=form.cleaned_data.get('phone', ''),
+                    bio=form.cleaned_data.get('bio', '')
+                )
+            
+            return redirect('teacher_list')
+    else:
+        form = TeacherForm()
+    
+    return render(request, 'teacher_add.html', {'form': form})
+
 def courses(request):
     """Список всех курсов"""
     courses = Course.objects.all()
@@ -19,12 +49,22 @@ def courses(request):
 def course_detail(request, pk):
     """Детальная информация о курсе"""
     course = get_object_or_404(Course, pk=pk)
-    author = course.teacher
+    return render(request, 'course_detail.html', {'course': course})
+
+def course_add(request):
+    """Добавление нового курса"""
+    if request.method == 'POST':
+        form = CourseForm(request.POST)
+        if form.is_valid():
+            course = Course.objects.create(
+                title=form.cleaned_data['title'],
+                teacher=form.cleaned_data['teacher']
+            )
+            return redirect('courses')
+    else:
+        form = CourseForm()
     
-    return render(request, 'course_detail.html', {
-        'course': course,
-        'author': author,
-    })
+    return render(request, 'course_add.html', {'form': form})
 
 def authors(request):
     """Список всех авторов (преподавателей)"""
@@ -39,6 +79,7 @@ def authors(request):
     
     return render(request, 'authors.html', {'authors': authors})
 
+
 def author_details(request, pk):
     """Детальная информация об авторе (преподавателе)"""
     author = get_object_or_404(Teacher, pk=pk)
@@ -51,35 +92,16 @@ def author_details(request, pk):
 
 def info(request):
     """Страница с ORM запросами"""
-    
-    # 1. Преподаватели, у которых больше 1 курса
     teachers_with_multiple_courses = Teacher.objects.annotate(
         course_count=Count('courses')
     ).filter(course_count__gt=1)
     
-    # 2. Студенты без курсов
-    students_without_courses = Student.objects.filter(courses__isnull=True)
-    
-    # 3. Преподаватели без профиля (TeacherInfo)
-    teachers_without_profile = Teacher.objects.filter(info__isnull=True)
-    
-    # 4. статистика
-    total_teachers = Teacher.objects.count()
-    total_courses = Course.objects.count()
-    total_students = Student.objects.count()
-    
     context = {
         'teachers_with_multiple_courses': teachers_with_multiple_courses,
-        'students_without_courses': students_without_courses,
-        'teachers_without_profile': teachers_without_profile,
-        'total_teachers': total_teachers,
-        'total_courses': total_courses,
-        'total_students': total_students,
     }
-    return render(request, 'orm_queries.html', context)
+    return render(request, 'info.html', context)
 
 def not_found(request):
-    """Страница 404"""
     return render(request, '404.html')
 
 def students(request):

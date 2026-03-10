@@ -1,0 +1,30 @@
+{% extends 'index.html' %}
+
+{% block title %}Добавление курса{% endblock %}
+
+{% block header %}Добавить новый курс{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto;">
+    <form method="post">
+        {% csrf_token %}
+        
+        {% if form.errors %}
+            <div style="border: 1px solid #dc3545; background: #f8d7da; padding: 15px; margin: 20px 0; border-radius: 5px;">
+                <h3 style="color: #721c24; margin-top: 0;">Ошибки в форме:</h3>
+                {{ form.errors }}
+            </div>
+        {% endif %}
+        
+        <div style="border: 1px solid #ddd; padding: 30px; border-radius: 5px;">
+            {{ form.as_p }}
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button type="submit" style="background: #28a745; color: white; padding: 10px 30px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">
+                    Сохранить курс
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
