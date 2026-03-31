@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Список преподавателей{% endblock %}
+
+{% block content %}
+<h1>Список преподавателей</h1>
+
+{% if teachers %}
+    <section>
+        {% for teacher in teachers %}
+            <article style="border: 1px solid #ddd; padding: 1rem; margin-bottom: 1rem; border-radius: 5px;">
+                <h2>{{ teacher.first_name }} {{ teacher.last_name }}</h2>
+                
+                <p><strong>Email:</strong> {{ teacher.email|default:"Не указан" }}</p>
+                
+                <p><strong>Курсы:</strong></p>
+                {% if teacher.courses.all %}
+                    <ul>
+                        {% for course in teacher.courses.all %}
+                            <li>{{ course.title }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Нет курсов</p>
+                {% endif %}
+                
+                {% if teacher.info %}
+                    <p><strong>Телефон:</strong> {{ teacher.info.phone|default:"Не указан" }}</p>
+                    <p><strong>Биография:</strong> {{ teacher.info.bio|truncatechars:100 }}</p>
+                {% endif %}
+            </article>
+        {% endfor %}
+    </section>
+{% else %}
+    <p>Преподавателей пока нет.</p>
+{% endif %}
+{% endblock %}

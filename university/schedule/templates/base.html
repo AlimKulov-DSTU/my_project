@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Учебная система{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+        }
+        nav {
+            background-color: #444;
+            padding: 0.5rem;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin-right: 0.5rem;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Учебная система</h1>
+    </header>
+    
+    <nav>
+        <a href="{% url 'teacher_list' %}">Список преподавателей</a>
+        <a href="{% url 'course_list' %}">Список курсов</a>
+        <a href="{% url 'teacher_create' %}">Добавить преподавателя</a>
+        <a href="{% url 'course_create' %}">Добавить курс</a>
+    </nav>
+    
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+    <footer>
+        <p>&copy; {% now "Y" %} Учебная система. Все права защищены.</p>
+    </footer>
+</body>
+</html>

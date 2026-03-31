@@ -56,6 +56,7 @@
     </header>
     
     <nav>
+        <a href="{% url 'index' %}">Главная</a>
         <a href="{% url 'teacher_list' %}">Список преподавателей</a>
         <a href="{% url 'courses' %}">Список курсов</a>
         <a href="{% url 'teacher_add' %}">Добавить преподавателя</a>
@@ -67,6 +68,7 @@
         <p>Это начальная страница, вот другие:</p>
         <a href="{% url 'courses' %}">courses.html</a>
         <a href="{% url 'teacher_list' %}">authors.html</a>
+        <a href="{% url 'students' %}">students.html</a>
         <a href="{% url 'info' %}">info.html</a>
         <a href="{% url '404' %}">404.html</a>
         {% endblock %}

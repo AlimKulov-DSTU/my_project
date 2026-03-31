@@ -9,15 +9,36 @@
     <form method="post">
         {% csrf_token %}
         
-        {% if form.errors %}
+        {% if form.non_field_errors %}
             <div style="border: 1px solid #dc3545; background: #f8d7da; padding: 15px; margin: 20px 0; border-radius: 5px;">
-                <h3 style="color: #721c24; margin-top: 0;">Ошибки в форме:</h3>
-                {{ form.errors }}
+                {% for error in form.non_field_errors %}
+                    <p style="color: #721c24; margin: 5px 0;">{{ error }}</p>
+                {% endfor %}
             </div>
         {% endif %}
         
         <div style="border: 1px solid #ddd; padding: 30px; border-radius: 5px;">
-            {{ form.as_p }}
+            {% for field in form %}
+                <div style="margin-bottom: 20px;">
+                    <label for="{{ field.id_for_label }}" style="font-weight: bold; display: block; margin-bottom: 5px;">
+                        {{ field.label }}
+                    </label>
+                    
+                    {% if field.errors %}
+                        <div style="border: 1px solid #dc3545; background: #f8d7da; padding: 8px; margin-bottom: 5px; border-radius: 4px;">
+                            {% for error in field.errors %}
+                                <p style="color: #721c24; margin: 0; padding: 0;">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                    {{ field }}
+                    
+                    {% if field.help_text %}
+                        <small style="color: #666; display: block; margin-top: 5px;">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endfor %}
             
             <div style="text-align: center; margin-top: 30px;">
                 <button type="submit" style="background: #28a745; color: white; padding: 10px 30px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">
@@ -27,4 +48,18 @@
         </div>
     </form>
 </div>
+
+<style>
+    input, select, textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    input:focus, select:focus, textarea:focus {
+        outline: none;
+        border-color: #28a745;
+    }
+</style>
 {% endblock %}

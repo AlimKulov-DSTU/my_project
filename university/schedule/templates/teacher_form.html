@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавить преподавателя{% endblock %}
+
+{% block content %}
+<h1>Добавить нового преподавателя</h1>
+
+<form method="post">
+    {% csrf_token %}
+    
+    {{ form.as_p }}
+    
+    <button type="submit" style="padding: 0.5rem 1rem; background-color: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer;">
+        Сохранить
+    </button>
+</form>
+{% endblock %}

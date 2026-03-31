@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Список курсов{% endblock %}
+
+{% block content %}
+<h1>Список курсов</h1>
+
+{% if courses %}
+    <section>
+        {% for course in courses %}
+            <article style="border: 1px solid #ddd; padding: 1rem; margin-bottom: 1rem; border-radius: 5px;">
+                <h2>{{ course.title }}</h2>
+                <p><strong>Преподаватель:</strong> 
+                    {% if course.teacher %}
+                        {{ course.teacher.first_name }} {{ course.teacher.last_name }}
+                    {% else %}
+                        Не назначен
+                    {% endif %}
+                </p>
+                <p><strong>Студентов:</strong> {{ course.students.count }}</p>
+            </article>
+        {% endfor %}
+    </section>
+{% else %}
+    <p>Курсов пока нет.</p>
+{% endif %}
+{% endblock %}
