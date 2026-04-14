@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Главная{% endblock %}
+{% block heading %}Главная{% endblock %}
+
+{% block content %}
+<p>
+    {% if user.is_authenticated %}
+        Вы вошли как {{ user.username }}.
+    {% else %}
+        Вы не авторизованы.
+    {% endif %}
+</p>
+{% endblock %}
