@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Пользователи{% endblock %}
+{% block heading %}Пользователи{% endblock %}
+
+{% block content %}
+<div class="section">
+    <h2>Входящие заявки</h2>
+    {% if incoming_requests %}
+    <ul class="item-list">
+        {% for request_item in incoming_requests %}
+        <li class="item">
+            <span>{{ request_item.from_user.username }}</span>
+            <div class="actions">
+                <form method="post" action="{% url 'accept_friend_request' request_item.pk %}" class="inline-form">
+                    {% csrf_token %}
+                    <button type="submit" class="button">Принять</button>
+                </form>
+                <form method="post" action="{% url 'decline_friend_request' request_item.pk %}" class="inline-form">
+                    {% csrf_token %}
+                    <button type="submit" class="button button--danger">Отклонить</button>
+                </form>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="muted">Входящих заявок нет.</p>
+    {% endif %}
+</div>
+
+<div class="section">
+    <h2>Все пользователи</h2>
+    {% if users %}
+    <ul class="item-list">
+        {% for item in users %}
+        <li class="item">
+            <span>
+                <strong>{{ item.username }}</strong>
+                <span class="muted">{{ item.email }}</span>
+                {% if item.phone %}<span class="muted">{{ item.phone }}</span>{% endif %}
+            </span>
+            <span class="actions">
+                {% if item in user.friends.all %}
+                    <a class="button" href="{% url 'user_profile' item.pk %}">Профиль</a>
+                {% elif item.pk in outgoing_request_ids %}
+                    <span class="status">Заявка отправлена</span>
+                {% elif item.pk in incoming_request_ids %}
+                    <span class="status">Пользователь отправил вам заявку</span>
+                {% else %}
+                    <form method="post" action="{% url 'send_friend_request' item.pk %}" class="inline-form">
+                        {% csrf_token %}
+                        <button type="submit" class="button">Отправить заявку</button>
+                    </form>
+                {% endif %}
+            </span>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="muted">Других пользователей пока нет.</p>
+    {% endif %}
+</div>
+{% endblock %}

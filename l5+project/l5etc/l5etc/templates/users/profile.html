@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль{% endblock %}
+{% block heading %}Профиль {{ profile_user.username }}{% endblock %}
+
+{% block content %}
+{% if profile_user.avatar %}
+<p><img class="avatar" src="{{ profile_user.avatar.url }}" alt="Аватар {{ profile_user.username }}"></p>
+{% endif %}
+
+<dl class="details">
+    <div><dt>Логин</dt><dd>{{ profile_user.username }}</dd></div>
+    <div><dt>Имя</dt><dd>{{ profile_user.first_name|default:"не указано" }}</dd></div>
+    <div><dt>Фамилия</dt><dd>{{ profile_user.last_name|default:"не указано" }}</dd></div>
+    <div><dt>Email</dt><dd>{{ profile_user.email }}</dd></div>
+    <div><dt>Телефон</dt><dd>{{ profile_user.phone|default:"не указан" }}</dd></div>
+</dl>
+
+{% if profile_user == user %}
+<p><a class="button" href="{% url 'profile_edit' %}">Изменить профиль</a></p>
+
+<div class="section">
+    <h2>Входящие заявки</h2>
+    {% if incoming_requests %}
+    <ul class="item-list">
+        {% for request_item in incoming_requests %}
+        <li class="item">
+            <span>{{ request_item.from_user.username }}</span>
+            <div class="actions">
+                <form method="post" action="{% url 'accept_friend_request' request_item.pk %}" class="inline-form">
+                    {% csrf_token %}
+                    <button type="submit" class="button">Принять</button>
+                </form>
+                <form method="post" action="{% url 'decline_friend_request' request_item.pk %}" class="inline-form">
+                    {% csrf_token %}
+                    <button type="submit" class="button button--danger">Отклонить</button>
+                </form>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="muted">Входящих заявок нет.</p>
+    {% endif %}
+</div>
+{% endif %}
+
+<div class="section">
+    <h2>Друзья</h2>
+    {% if profile_user.friends.all %}
+    <ul class="item-list">
+        {% for friend in profile_user.friends.all %}
+        <li class="item">
+            {% if friend == user or friend in user.friends.all %}
+                <a href="{% url 'user_profile' friend.pk %}">{{ friend.username }}</a>
+            {% else %}
+                <span>{{ friend.username }}</span>
+            {% endif %}
+            {% if profile_user == user %}
+            <form method="post" action="{% url 'remove_friend' friend.pk %}" class="inline-form">
+                {% csrf_token %}
+                <button type="submit" class="button button--danger">Удалить</button>
+            </form>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="muted">Список друзей пуст.</p>
+    {% endif %}
+</div>
+{% endblock %}

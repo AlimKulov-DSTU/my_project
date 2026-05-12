@@ -1,6 +1,8 @@
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+LOG_DIR = BASE_DIR / 'logs'
+LOG_DIR.mkdir(exist_ok=True)
 SECRET_KEY = 'django-insecure-2fv7fmx2rfg@ut@)w)1u*w!5*+e-p-o^26#8j+z_(3#9yefyp3'
 DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
@@ -78,4 +80,53 @@ TIME_ZONE = 'Europe/Moscow'
 USE_I18N = True
 USE_TZ = True
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'l5etc' / 'static']
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': (
+                '%(asctime)s | %(levelname)s | %(name)s | %(module)s | %(filename)s | '
+                '%(funcName)s | line=%(lineno)d | process=%(process)d | thread=%(thread)d | %(message)s'
+            ),
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+            'level': 'INFO',
+        },
+        'rotating_file': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': str(LOG_DIR / 'app.log'),
+            'maxBytes': 1024 * 1024,
+            'backupCount': 5,
+            'formatter': 'verbose',
+            'level': 'INFO',
+            'encoding': 'utf-8',
+        },
+        'daily_file': {
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': str(LOG_DIR / 'daily.log'),
+            'when': 'D',
+            'interval': 1,
+            'backupCount': 7,
+            'formatter': 'verbose',
+            'level': 'INFO',
+            'encoding': 'utf-8',
+        },
+    },
+    'loggers': {
+        'users': {
+            'handlers': ['console', 'rotating_file', 'daily_file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
